@@ -43,6 +43,17 @@ fn builtin_pwd() {
     }
 }
 
+fn tokenize(input: &str) -> Vec<String> {
+    let mut tokens = Vec::new();
+    let mut current = String::new();
+
+    for current_character in input.chars() {
+        if current_character.is_whitespace() {}
+    }
+
+    tokens
+}
+
 fn main() {
     loop {
         let username = get_username();
