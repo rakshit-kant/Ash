@@ -36,6 +36,13 @@ fn get_os_name() -> String {
     "Unknown".to_string()
 }
 
+fn builtin_pwd() {
+    match std::env::current_dir() {
+        Ok(path) => println!("{}", path.display()),
+        Err(err) => eprintln!("Error: {err}"),
+    }
+}
+
 fn main() {
     loop {
         let username = get_username();
@@ -45,6 +52,10 @@ fn main() {
 
         if input == "exit" {
             break;
+        }
+
+        if input == "pwd" {
+            builtin_pwd();
         }
 
         println!("You typed: {}", input);
