@@ -48,7 +48,14 @@ fn tokenize(input: &str) -> Vec<String> {
     let mut current = String::new();
 
     for current_character in input.chars() {
-        if current_character.is_whitespace() {}
+        if current_character.is_whitespace() {
+            if current.is_empty() {
+                tokens.push(current.clone());
+                current.clear();
+            } else {
+                current.push(current_character);
+            }
+        }
     }
 
     tokens
