@@ -43,6 +43,14 @@ fn builtin_pwd() {
     }
 }
 
+fn dispatch(tokens: Vec<String>) {
+    let tokens_str = tokens.as_str();
+    match tokens_str {
+        "pwd" => builtin_pwd(),
+        _ => return,
+    }
+}
+
 fn tokenize(input: &str) -> Vec<String> {
     let mut tokens = Vec::new();
     let mut current = String::new();
@@ -68,13 +76,7 @@ fn main() {
         print!("{}@{}@{}> ", SHELL_NAME, username, os_name);
         let input = get_string();
 
-        if input == "exit" {
-            break;
-        }
-
-        if input == "pwd" {
-            builtin_pwd();
-        }
+        let tokens = tokenize(&input);
 
         println!("You typed: {}", input);
     }
