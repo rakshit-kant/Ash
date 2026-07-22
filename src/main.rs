@@ -57,13 +57,17 @@ fn tokenize(input: &str) -> Vec<String> {
 
     for current_character in input.chars() {
         if current_character.is_whitespace() {
-            if current.is_empty() {
+            if !current.is_empty() {
                 tokens.push(current.clone());
                 current.clear();
-            } else {
-                current.push(current_character);
             }
+        } else {
+            current.push(current_character);
         }
+    }
+
+    if !current.is_empty() {
+        tokens.push(current);
     }
 
     tokens
