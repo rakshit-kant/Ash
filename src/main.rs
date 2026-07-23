@@ -43,11 +43,11 @@ fn builtin_pwd() {
     }
 }
 
-fn dispatch(tokens: Vec<String>) {
-    let tokens_str = tokens.as_str();
-    match tokens_str {
-        "pwd" => builtin_pwd(),
-        _ => return,
+fn dispatch(tokens: &[String]) {
+    match tokens.first().map(String::as_str()) {
+        Some("pwd") => builtin_pwd(),
+        Some("cmd") => eprintln!("What you wrote is wrong"),
+        None => {}
     }
 }
 
@@ -81,6 +81,7 @@ fn main() {
         let input = get_string();
 
         let tokens = tokenize(&input);
+        dispatch(&tokens);
 
         println!("You typed: {}", input);
     }
