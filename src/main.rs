@@ -95,11 +95,6 @@ fn main() {
 
         let tokens = tokenize(&input);
         dispatch(&tokens);
-<<<<<<< HEAD
-
-        println!("You typed: {}", input);
-=======
->>>>>>> 087869b (Did the Following Tasks: (Read the Description))
     }
 }
 
