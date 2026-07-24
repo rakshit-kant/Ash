@@ -43,11 +43,24 @@ fn builtin_pwd() {
     }
 }
 
+fn builtin_cd(path_name: &str) {
+    // TODO: Implement cd
+    let _ = path_name;
+}
+
 fn dispatch(tokens: &[String]) {
-    match tokens.first().map(String::as_str()) {
+    match tokens.first().map(String::as_str) {
         Some("pwd") => builtin_pwd(),
         Some("cmd") => eprintln!("What you wrote is wrong"),
+        Some("cd") => {
+            if let Some(path) = tokens.get(1) {
+                builtin_cd(path);
+            } else {
+                eprintln!("cd: missing operand");
+            }
+        }
         None => {}
+        _ => {}
     }
 }
 
@@ -82,7 +95,14 @@ fn main() {
 
         let tokens = tokenize(&input);
         dispatch(&tokens);
+<<<<<<< HEAD
 
         println!("You typed: {}", input);
+=======
+>>>>>>> 087869b (Did the Following Tasks: (Read the Description))
     }
 }
+
+// TODO: Initialize the path_name variable
+// TODO: Scan for the Directories and Files in the Current Directory
+// TODO: Finish the fn builtin_cd()
