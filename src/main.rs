@@ -1,5 +1,6 @@
 use std::fs;
 use std::io::{self, Write};
+use std::process::Command;
 
 const SHELL_NAME: &str = "ASH";
 
@@ -89,6 +90,15 @@ fn tokenize(input: &str) -> Vec<String> {
     }
 
     tokens
+}
+
+fn run_external_commands(command: &str, args: &[String]) {
+    let status = Command::new(command).args(args).status();
+
+    match status {
+        Ok(_) => {}
+        Err(err) => eprintln!("ash: {command} {err}"),
+    }
 }
 
 fn main() {
