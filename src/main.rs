@@ -36,6 +36,10 @@ fn get_os_name() -> String {
     "Unknown".to_string()
 }
 
+fn builtin_exit() -> ! {
+    std::process::exit(0);
+}
+
 fn builtin_pwd() {
     match std::env::current_dir() {
         Ok(path) => println!("{}", path.display()),
@@ -44,14 +48,14 @@ fn builtin_pwd() {
 }
 
 fn builtin_cd(path_name: &str) {
-    // TODO: Implement cd
-    let _ = path_name;
+    if let Err(err) = std::env::set_current_dir(path_name) {
+        eprintln!("cd: {err}")
+    }
 }
 
 fn dispatch(tokens: &[String]) {
     match tokens.first().map(String::as_str) {
         Some("pwd") => builtin_pwd(),
-        Some("cmd") => eprintln!("What you wrote is wrong"),
         Some("cd") => {
             if let Some(path) = tokens.get(1) {
                 builtin_cd(path);
@@ -59,6 +63,7 @@ fn dispatch(tokens: &[String]) {
                 eprintln!("cd: missing operand");
             }
         }
+        Some("exit") => builtin_exit(),
         None => {}
         _ => {}
     }
@@ -97,7 +102,3 @@ fn main() {
         dispatch(&tokens);
     }
 }
-
-// TODO: Initialize the path_name variable
-// TODO: Scan for the Directories and Files in the Current Directory
-// TODO: Finish the fn builtin_cd()
