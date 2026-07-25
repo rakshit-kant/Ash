@@ -6,9 +6,9 @@ Small Unix Shell written in Rust.
 
 - Can run External Commands such as git and cargo (Cannot right now)
 - Has Built in Shell Commands such as cd and pwd (Can right now)
-- Has Pipes (Cannot right now)
-- Has Input Redirection (Cannot right now)
-- Has Environment Variables (Cannot right now)
+- Has Pipes (Not right now)
+- Has Input Redirection (Not right now)
+- Has Environment Variables (Not right now)
 
 ## Run
 
