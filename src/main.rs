@@ -1,3 +1,4 @@
+use std::env;
 use std::fs;
 use std::io::{self, Write};
 use std::process::Command;
@@ -18,7 +19,7 @@ fn get_string() -> String {
 }
 
 fn get_username() -> String {
-    std::env::var("USER").unwrap_or_else(|_| "unknown".to_string())
+    env::var("USER").unwrap_or_else(|_| "unknown".to_string())
 }
 
 fn get_os_name() -> String {
@@ -41,22 +42,22 @@ fn builtin_exit() -> ! {
     std::process::exit(0);
 }
 
-fn builtin_pwd() {
-    match std::env::current_dir() {
-        Ok(path) => println!("{}", path.display()),
-        Err(err) => eprintln!("Error: {err}"),
-    }
+fn builtin_pwd() -> Result<String, std::io::Error> {
+    Ok(env::current_dir()?.display().to_string())
 }
 
 fn builtin_cd(path_name: &str) {
-    if let Err(err) = std::env::set_current_dir(path_name) {
+    if let Err(err) = env::set_current_dir(path_name) {
         eprintln!("cd: {err}")
     }
 }
 
 fn dispatch(tokens: &[String]) {
     match tokens.first().map(String::as_str) {
-        Some("pwd") => builtin_pwd(),
+        Some("pwd") => match builtin_pwd() {
+            Ok(path) => println!("{path}"),
+            Err(err) => eprintln!("pwd: {err}"),
+        },
         Some("cd") => {
             if let Some(path) = tokens.get(1) {
                 builtin_cd(path);
@@ -105,7 +106,11 @@ fn main() {
     loop {
         let username = get_username();
         let os_name = get_os_name();
-        print!("{}@{}@{}> ", SHELL_NAME, username, os_name);
+        let current_directory = match builtin_pwd() {
+            Ok(path) => path,
+            Err(_) => "?".to_string(),
+        };
+        print!("{}@{}:{} ❯ ", username, os_name, current_directory);
         let input = get_string();
 
         let tokens = tokenize(&input);
