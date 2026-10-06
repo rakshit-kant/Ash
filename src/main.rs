@@ -3,8 +3,6 @@ use std::fs;
 use std::io::{self, Write};
 use std::process::Command;
 
-const SHELL_NAME: &str = "ASH";
-
 fn get_string() -> String {
     io::stdout().flush().unwrap();
 
