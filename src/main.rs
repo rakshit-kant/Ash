@@ -8,7 +8,7 @@ const SHELL_NAME: &str = "ASH";
 fn get_string() -> String {
     io::stdout().flush().unwrap();
 
-    let mut input = String::new();
+    let mut input: String = String::new();
     io::stdin()
         .read_line(&mut input)
         .expect("Failed to Read from Stdin");
@@ -23,7 +23,8 @@ fn get_username() -> String {
 }
 
 fn get_os_name() -> String {
-    let contents = fs::read_to_string("/etc/os-release").expect("Failed to Read os-release");
+    let contents: String =
+        fs::read_to_string("/etc/os-release").expect("Failed to Read os-release");
 
     for line in contents.lines() {
         if line.starts_with("ID=") {
@@ -72,8 +73,8 @@ fn dispatch(tokens: &[String]) {
 }
 
 fn tokenize(input: &str) -> Vec<String> {
-    let mut tokens = Vec::new();
-    let mut current = String::new();
+    let mut tokens: Vec<String> = Vec::new();
+    let mut current: String = String::new();
 
     for current_character in input.chars() {
         if current_character.is_whitespace() {
@@ -104,16 +105,16 @@ fn run_external_commands(command: &str, args: &[String]) {
 
 fn main() {
     loop {
-        let username = get_username();
-        let os_name = get_os_name();
-        let current_directory = match builtin_pwd() {
+        let username: String = get_username();
+        let os_name: String = get_os_name();
+        let current_directory: String = match builtin_pwd() {
             Ok(path) => path,
             Err(_) => "?".to_string(),
         };
         print!("{}@{}:{} ❯ ", username, os_name, current_directory);
-        let input = get_string();
+        let input: String = get_string();
 
-        let tokens = tokenize(&input);
+        let tokens: Vec<String> = tokenize(&input);
         dispatch(&tokens);
     }
 }
